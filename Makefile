@@ -1,5 +1,5 @@
 PROG=	edid-extract
 
-NO_MAN=
+MK_MAN=no
 
 .include <bsd.prog.mk>
