@@ -48,7 +48,7 @@ main (int argc, char *argv[])
     char *driver_needle = NULL;
     int driver_needle_length = 0;
 
-    char screen_name[BUFSIZ], screen_manufacturer[BUFSIZ], screen_model[BUFSIZ];
+    char screen_name[BUFSIZ], screen_identification[BUFSIZ];
     char *edid_end_sequence = NULL;
 
     char buffer[BUFSIZ];
@@ -91,10 +91,10 @@ main (int argc, char *argv[])
 
 	switch (log_position) {
 	case LP_UNKNOWN:
-	    if (3 == sscanf (p, "--- EDID for %s %s (%[^)]) ---", screen_manufacturer, screen_model, screen_name)) {
+	    if (2 == sscanf (p, "--- EDID for %[^(](%[^)]) ---", screen_identification, screen_name)) {
 		log_position = LP_EDID;
-		asprintf(&edid_end_sequence, "--- End of EDID for %s %s (%s) ---", screen_manufacturer, screen_model, screen_name);
-		fprintf (stderr, "Found EDID for %s %s\n", screen_manufacturer, screen_model);
+		asprintf(&edid_end_sequence, "--- End of EDID for %s(%s) ---", screen_identification, screen_name);
+		fprintf (stderr, "Found EDID for %s\n", screen_identification);
 		dump = fopen(screen_name, "w");
 	    }
 	    break;
